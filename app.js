@@ -32,6 +32,7 @@ const recordSchema = new mongoose.Schema({
     fullName: String,
     email: String,
     companyPhone: String,
+    companyName: String,
     mobilePhone: String,
     dob: String,
     address: String,
@@ -40,6 +41,7 @@ const recordSchema = new mongoose.Schema({
     age: String,
     city: String,
     state: String,
+    source: String
 
 
 }, { timestamps: true });
@@ -121,7 +123,32 @@ app.get('/api/dashboard', async (req, res) => {
             filter.firstName = { $exists: true, $ne: '' };
         }
         // first name filters end
-
+        // compan Name filters 
+        // first name filters start
+        if (req.query.companyName === 'like') {
+            filter.companyName = { $regex: req.query.firstNameValue, $options: 'i' };
+        }
+        if (req.query.companyName === 'eq') {
+            filter.companyName = { $in: req.query.firstNameValue }
+        }
+        if (req.query.companyName === 'notLike') {
+            filter.companyName = { $not: { $regex: req.query.firstNameValue, $options: 'i' } };
+        }
+        if (req.query.companyName === 'isNot') {
+            filter.companyName = { $ne: req.query.firstNameValue };
+        }
+        if (req.query.companyName === 'startsWith') {
+            filter.companyName = { $regex: `^${req.query.firstNameValue}`, $options: 'i' };
+        }
+        if (req.query.companyName === 'endsWith') {
+            filter.companyName = { $regex: `${req.query.firstNameValue}$`, $options: 'i' };
+        }
+        if (req.query.companyName === 'isBlank') {
+            filter.companyName = { $exists: false, $ne: '' };
+        }
+        if (req.query.companyName === 'isNotBlank') {
+            filter.companyName = { $exists: true, $ne: '' };
+        }
         // last name filters start
         if (req.query.lastName === 'like') {
             filter.lastName = { $regex: req.query.lastNameValue, $options: 'i' };
