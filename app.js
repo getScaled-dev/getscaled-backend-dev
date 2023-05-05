@@ -531,7 +531,7 @@ app.delete('/delete-records', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
+app.timeout = 200000;
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
