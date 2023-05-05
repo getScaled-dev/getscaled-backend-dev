@@ -95,7 +95,7 @@ app.get('/api/dashboard', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.itemsPerPage) || 100;
-        console.log(req.query.nameValue, 'name value')
+
         let jobTitleValue = JSON.parse(req.query.jobTitleValue);
         // first name filters start
         if (req.query.firstName === 'like') {
