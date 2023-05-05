@@ -29,7 +29,7 @@ const recordSchema = new mongoose.Schema({
     fullName: String,
     firstName: String,
     lastName: String,
-    fullName: String,
+
     email: String,
     companyPhone: String,
     companyName: String,
@@ -531,8 +531,27 @@ app.delete('/delete-records', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-app.timeout = 2000000;
+// app.get('/fullname', async (req, res) => {
+//     try {
+//         let records = await Record.find().limit(10000)
+
+//         for (let rec of records) {
+//             if (rec.fullName == null || rec.fullName == '' || rec.fullName == undefined) {
+//                 rec.fullName = rec.firstName + ' ' + rec.lastName
+//                 await rec.save();
+//             }
+//             console.log(rec.fullName)
+//         }
+
+//         res.send('done')
+//     } catch (error) {
+//         console.log(error)
+
+//     }
+// })
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
+app.timeout = 3000000;
