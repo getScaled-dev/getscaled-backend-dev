@@ -92,226 +92,273 @@ app.post('/api/add-data', upload.single('csvFile'), (req, res) => {
 // GET API with pagination and filters
 app.get('/api/dashboard', async (req, res) => {
     const filter = {};
+    const firstName = req.query.firstName
+    const firstNameValue = req.query.firstNameValue
+    const lastName = req.query.lastName
+    const lastNameValue = req.query.lastNameValue
+    const email = req.query.email
+    const emailValue = req.query.emailValue
+    const jobTitle = req.query.jobTitle
+    const jobTitleValue = req.query.jobTitleValue
+    const mobilePhone = req.query.mobilePhone
+    const mobilePhoneValue = req.query.mobilePhoneValue
+    const city = req.query.city
+    const cityValue = req.query.cityValue
+    const state = req.query.state
+    const stateValue = req.query.stateValue
+    const companyName = req.query.companyName
+    const companyNameValue = req.query.companyNameValue
+    const companyPhone = req.query.companyPhone
+    const companyPhoneValue = req.query.companyPhoneValue
+    const address = req.query.address
+    const addressValue = req.query.addressValue
+    const address2 = req.query.address2
+
+    const address2Value = req.query.address2Value
+    const age = req.query.age
+    const ageEndValue = req.query.ageEndValue
+    const ageStartValue = req.query.ageStartValue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.itemsPerPage) || 100;
 
         let jobTitleValue = JSON.parse(req.query.jobTitleValue);
         // first name filters start
-        if (req.query.firstName === 'like') {
-            filter.firstName = { $regex: req.query.firstNameValue, $options: 'i' };
+        if (firstName === 'like') {
+            filter.firstName = { $regex: firstNameValue, $options: 'i' };
         }
-        if (req.query.firstName === 'eq') {
-            filter.firstName = { $in: req.query.firstNameValue }
+        if (firstName === 'eq') {
+            filter.firstName = { $in: firstNameValue }
         }
-        if (req.query.firstName === 'notLike') {
-            filter.firstName = { $not: { $regex: req.query.firstNameValue, $options: 'i' } };
+        if (firstName === 'notLike') {
+            filter.firstName = { $not: { $regex: firstNameValue, $options: 'i' } };
         }
-        if (req.query.firstName === 'isNot') {
-            filter.firstName = { $ne: req.query.firstNameValue };
+        if (firstName === 'isNot') {
+            filter.firstName = { $ne: firstNameValue };
         }
-        if (req.query.firstName === 'startsWith') {
-            filter.firstName = { $regex: `^${req.query.firstNameValue}`, $options: 'i' };
+        if (firstName === 'startsWith') {
+            filter.firstName = { $regex: `^${firstNameValue}`, $options: 'i' };
         }
-        if (req.query.firstName === 'endsWith') {
-            filter.firstName = { $regex: `${req.query.firstNameValue}$`, $options: 'i' };
+        if (firstName === 'endsWith') {
+            filter.firstName = { $regex: `${firstNameValue}$`, $options: 'i' };
         }
-        if (req.query.firstName === 'isBlank') {
+        if (firstName === 'isBlank') {
             filter.firstName = { $exists: false, $ne: '' };
         }
-        if (req.query.firstName === 'isNotBlank') {
+        if (firstName === 'isNotBlank') {
             filter.firstName = { $exists: true, $ne: '' };
         }
         // first name filters end
         // compan Name filters 
         // first name filters start
-        if (req.query.companyName === 'like') {
-            filter.companyName = { $regex: req.query.firstNameValue, $options: 'i' };
+        if (companyName === 'like') {
+            filter.companyName = { $regex: companyNameValue, $options: 'i' };
         }
-        if (req.query.companyName === 'eq') {
-            filter.companyName = { $in: req.query.firstNameValue }
+        if (companyName === 'eq') {
+            filter.companyName = { $in: companyNameValue }
         }
-        if (req.query.companyName === 'notLike') {
-            filter.companyName = { $not: { $regex: req.query.firstNameValue, $options: 'i' } };
+        if (companyName === 'notLike') {
+            filter.companyName = { $not: { $regex: companyNameValue, $options: 'i' } };
         }
-        if (req.query.companyName === 'isNot') {
-            filter.companyName = { $ne: req.query.firstNameValue };
+        if (companyName === 'isNot') {
+            filter.companyName = { $ne: companyNameValue };
         }
-        if (req.query.companyName === 'startsWith') {
-            filter.companyName = { $regex: `^${req.query.firstNameValue}`, $options: 'i' };
+        if (companyName === 'startsWith') {
+            filter.companyName = { $regex: `^${companyNameValue}`, $options: 'i' };
         }
-        if (req.query.companyName === 'endsWith') {
-            filter.companyName = { $regex: `${req.query.firstNameValue}$`, $options: 'i' };
+        if (companyName === 'endsWith') {
+            filter.companyName = { $regex: `${companyNameValue}$`, $options: 'i' };
         }
-        if (req.query.companyName === 'isBlank') {
+        if (companyName === 'isBlank') {
             filter.companyName = { $exists: false, $ne: '' };
         }
-        if (req.query.companyName === 'isNotBlank') {
+        if (companyName === 'isNotBlank') {
             filter.companyName = { $exists: true, $ne: '' };
         }
         // last name filters start
-        if (req.query.lastName === 'like') {
-            filter.lastName = { $regex: req.query.lastNameValue, $options: 'i' };
+        if (lastName === 'like') {
+            filter.lastName = { $regex: lastNameValue, $options: 'i' };
         }
-        if (req.query.lastName === 'eq') {
-            filter.lastName = { $in: req.query.lastNameValue }
+        if (lastName === 'eq') {
+            filter.lastName = { $in: lastNameValue }
         }
-        if (req.query.lastName === 'notLike') {
-            filter.lastName = { $not: { $regex: req.query.lastNameValue, $options: 'i' } };
+        if (lastName === 'notLike') {
+            filter.lastName = { $not: { $regex: lastNameValue, $options: 'i' } };
         }
-        if (req.query.lastName === 'isNot') {
-            filter.lastName = { $ne: req.query.lastNameValue };
+        if (lastName === 'isNot') {
+            filter.lastName = { $ne: lastNameValue };
         }
-        if (req.query.lastName === 'startsWith') {
-            filter.lastName = { $regex: `^${req.query.lastNameValue}`, $options: 'i' };
+        if (lastName === 'startsWith') {
+            filter.lastName = { $regex: `^${lastNameValue}`, $options: 'i' };
         }
-        if (req.query.lastName === 'endsWith') {
-            filter.lastName = { $regex: `${req.query.lastNameValue}$`, $options: 'i' };
+        if (lastName === 'endsWith') {
+            filter.lastName = { $regex: `${lastNameValue}$`, $options: 'i' };
         }
-        if (req.query.lastName === 'isBlank') {
+        if (lastName === 'isBlank') {
             filter.lastName = { $exists: false, $ne: '' };
         }
-        if (req.query.lastName === 'isNotBlank') {
+        if (lastName === 'isNotBlank') {
             filter.lastName = { $exists: true, $ne: '' };
         }
         // last name filters end
 
         // email filters start
-        if (req.query.email === 'like') {
-            filter.email = { $regex: req.query.emailValue, $options: 'i' };
+        if (email === 'like') {
+            filter.email = { $regex: emailValue, $options: 'i' };
         }
-        if (req.query.email === 'eq') {
-            filter.email = { $in: req.query.emailValue }
+        if (email === 'eq') {
+            filter.email = { $in: emailValue }
         }
-        if (req.query.email === 'notLike') {
-            filter.email = { $not: { $regex: req.query.emailValue, $options: 'i' } };
+        if (email === 'notLike') {
+            filter.email = { $not: { $regex: emailValue, $options: 'i' } };
         }
-        if (req.query.email === 'isNot') {
-            filter.email = { $ne: req.query.emailValue };
+        if (email === 'isNot') {
+            filter.email = { $ne: emailValue };
         }
-        if (req.query.email === 'startsWith') {
-            filter.email = { $regex: `^${req.query.emailValue}`, $options: 'i' };
+        if (email === 'startsWith') {
+            filter.email = { $regex: `^${emailValue}`, $options: 'i' };
         }
-        if (req.query.email === 'endsWith') {
-            filter.email = { $regex: `${req.query.emailValue}$`, $options: 'i' };
+        if (email === 'endsWith') {
+            filter.email = { $regex: `${emailValue}$`, $options: 'i' };
         }
-        if (req.query.email === 'isBlank') {
+        if (email === 'isBlank') {
             filter.email = { $exists: false, $ne: '' };
         }
-        if (req.query.email === 'isNotBlank') {
+        if (email === 'isNotBlank') {
             filter.email = { $exists: true, $ne: '' };
         }
         // email filters end
 
         // company phone filters start
-        if (req.query.companyPhone === 'like') {
-            filter.companyPhone = { $regex: req.query.companyPhoneValue, $options: 'i' };
+        if (companyPhone === 'like') {
+            filter.companyPhone = { $regex: companyPhoneValue, $options: 'i' };
         }
-        if (req.query.companyPhone === 'eq') {
-            filter.companyPhone = { $in: req.query.companyPhoneValue }
+        if (companyPhone === 'eq') {
+            filter.companyPhone = { $in: companyPhoneValue }
         }
-        if (req.query.companyPhone === 'notLike') {
-            filter.companyPhone = { $not: { $regex: req.query.companyPhoneValue, $options: 'i' } };
+        if (companyPhone === 'notLike') {
+            filter.companyPhone = { $not: { $regex: companyPhoneValue, $options: 'i' } };
         }
-        if (req.query.companyPhone === 'isNot') {
-            filter.companyPhone = { $ne: req.query.companyPhoneValue };
+        if (companyPhone === 'isNot') {
+            filter.companyPhone = { $ne: companyPhoneValue };
         }
-        if (req.query.companyPhone === 'startsWith') {
-            filter.companyPhone = { $regex: `^${req.query.companyPhoneValue}`, $options: 'i' };
+        if (companyPhone === 'startsWith') {
+            filter.companyPhone = { $regex: `^${companyPhoneValue}`, $options: 'i' };
         }
-        if (req.query.companyPhone === 'endsWith') {
-            filter.companyPhone = { $regex: `${req.query.companyPhoneValue}$`, $options: 'i' };
+        if (companyPhone === 'endsWith') {
+            filter.companyPhone = { $regex: `${companyPhoneValue}$`, $options: 'i' };
         }
-        if (req.query.companyPhone === 'isBlank') {
+        if (companyPhone === 'isBlank') {
             filter.companyPhone = { $exists: false, $ne: '' };
         }
-        if (req.query.companyPhone === 'isNotBlank') {
+        if (companyPhone === 'isNotBlank') {
             filter.companyPhone = { $exists: true, $ne: '' };
         }
         // company phone filters end
 
 
         // mobile phone filters start
-        if (req.query.mobilePhone === 'like') {
-            filter.mobilePhone = { $regex: req.query.mobilePhoneValue, $options: 'i' };
+        if (mobilePhone === 'like') {
+            filter.mobilePhone = { $regex: mobilePhoneValue, $options: 'i' };
         }
-        if (req.query.mobilePhone === 'eq') {
-            filter.mobilePhone = { $in: req.query.mobilePhoneValue }
+        if (mobilePhone === 'eq') {
+            filter.mobilePhone = { $in: mobilePhoneValue }
         }
-        if (req.query.mobilePhone === 'notLike') {
-            filter.mobilePhone = { $not: { $regex: req.query.mobilePhoneValue, $options: 'i' } };
+        if (mobilePhone === 'notLike') {
+            filter.mobilePhone = { $not: { $regex: mobilePhoneValue, $options: 'i' } };
         }
-        if (req.query.mobilePhone === 'isNot') {
-            filter.mobilePhone = { $ne: req.query.mobilePhoneValue };
+        if (mobilePhone === 'isNot') {
+            filter.mobilePhone = { $ne: mobilePhoneValue };
         }
-        if (req.query.mobilePhone === 'startsWith') {
-            filter.mobilePhone = { $regex: `^${req.query.mobilePhoneValue}`, $options: 'i' };
+        if (mobilePhone === 'startsWith') {
+            filter.mobilePhone = { $regex: `^${mobilePhoneValue}`, $options: 'i' };
         }
-        if (req.query.mobilePhone === 'endsWith') {
-            filter.mobilePhone = { $regex: `${req.query.mobilePhoneValue}$`, $options: 'i' };
+        if (mobilePhone === 'endsWith') {
+            filter.mobilePhone = { $regex: `${mobilePhoneValue}$`, $options: 'i' };
         }
-        if (req.query.mobilePhone === 'isBlank') {
+        if (mobilePhone === 'isBlank') {
             filter.mobilePhone = { $exists: false, $ne: '' };
         }
-        if (req.query.mobilePhone === 'isNotBlank') {
+        if (mobilePhone === 'isNotBlank') {
             filter.mobilePhone = { $exists: true, $ne: '' };
         }
         // mobile phone filters end
 
         // address filters start
-        if (req.query.address === 'like') {
-            filter.address = { $regex: req.query.addressValue, $options: 'i' };
+        if (address === 'like') {
+            filter.address = { $regex: addressValue, $options: 'i' };
         }
-        if (req.query.address === 'eq') {
-            filter.address = { $in: req.query.addressValue }
+        if (address === 'eq') {
+            filter.address = { $in: addressValue }
         }
-        if (req.query.address === 'notLike') {
-            filter.address = { $not: { $regex: req.query.addressValue, $options: 'i' } };
+        if (address === 'notLike') {
+            filter.address = { $not: { $regex: addressValue, $options: 'i' } };
         }
-        if (req.query.address === 'isNot') {
-            filter.address = { $ne: req.query.addressValue };
+        if (address === 'isNot') {
+            filter.address = { $ne: addressValue };
         }
-        if (req.query.address === 'startsWith') {
-            filter.address = { $regex: `^${req.query.addressValue}`, $options: 'i' };
+        if (address === 'startsWith') {
+            filter.address = { $regex: `^${addressValue}`, $options: 'i' };
         }
-        if (req.query.address === 'endsWith') {
-            filter.address = { $regex: `${req.query.addressValue}$`, $options: 'i' };
+        if (address === 'endsWith') {
+            filter.address = { $regex: `${addressValue}$`, $options: 'i' };
         }
-        if (req.query.address === 'isBlank') {
+        if (address === 'isBlank') {
             filter.address = { $exists: false, $ne: '' };
         }
-        if (req.query.address === 'isNotBlank') {
+        if (address === 'isNotBlank') {
             filter.address = { $exists: true, $ne: '' };
         }
         // address filters end
 
         // address2 filters start
-        if (req.query.address2 === 'like') {
-            filter.address2 = { $regex: req.query.address2Value, $options: 'i' };
+        if (address2 === 'like') {
+            filter.address2 = { $regex: address2Value, $options: 'i' };
         }
-        if (req.query.address2 === 'eq') {
-            filter.address2 = { $in: req.query.address2Value }
+        if (address2 === 'eq') {
+            filter.address2 = { $in: address2Value }
         }
-        if (req.query.address2 === 'notLike') {
-            filter.address2 = { $not: { $regex: req.query.address2Value, $options: 'i' } };
+        if (address2 === 'notLike') {
+            filter.address2 = { $not: { $regex: address2Value, $options: 'i' } };
         }
-        if (req.query.address2 === 'isNot') {
-            filter.address2 = { $ne: req.query.address2Value };
+        if (address2 === 'isNot') {
+            filter.address2 = { $ne: address2Value };
         }
-        if (req.query.address2 === 'startsWith') {
-            filter.address2 = { $regex: `^${req.query.address2Value}`, $options: 'i' };
+        if (address2 === 'startsWith') {
+            filter.address2 = { $regex: `^${address2Value}`, $options: 'i' };
         }
-        if (req.query.address2 === 'endsWith') {
-            filter.address2 = { $regex: `${req.query.address2Value}$`, $options: 'i' };
+        if (address2 === 'endsWith') {
+            filter.address2 = { $regex: `${address2Value}$`, $options: 'i' };
         }
-        if (req.query.address2 === 'isBlank') {
+        if (address2 === 'isBlank') {
             filter.address2 = { $exists: false, $ne: '' };
         }
-        if (req.query.address2 === 'isNotBlank') {
+        if (address2 === 'isNotBlank') {
             filter.address2 = { $exists: true, $ne: '' };
         }
         // jobTitle filters end
-        if (req.query.jobTitle === 'like') {
+        if (jobTitle === 'like') {
             const jobTitlesArray = jobTitleValue;
             const jobTitles = jobTitlesArray.map(job => job.jobTitleValue);
             const regex = new RegExp(jobTitles.join('|'), 'i');
@@ -321,69 +368,69 @@ app.get('/api/dashboard', async (req, res) => {
 
 
         // city filters start
-        if (req.query.city === 'like') {
-            filter.city = { $regex: req.query.cityValue, $options: 'i' };
+        if (city === 'like') {
+            filter.city = { $regex: cityValue, $options: 'i' };
         }
-        if (req.query.city === 'eq') {
-            filter.city = { $in: req.query.cityValue }
+        if (city === 'eq') {
+            filter.city = { $in: cityValue }
         }
-        if (req.query.city === 'notLike') {
-            filter.city = { $not: { $regex: req.query.cityValue, $options: 'i' } };
+        if (city === 'notLike') {
+            filter.city = { $not: { $regex: cityValue, $options: 'i' } };
         }
-        if (req.query.city === 'isNot') {
-            filter.city = { $ne: req.query.cityValue };
+        if (city === 'isNot') {
+            filter.city = { $ne: cityValue };
         }
-        if (req.query.city === 'startsWith') {
-            filter.city = { $regex: `^${req.query.cityValue}`, $options: 'i' };
+        if (city === 'startsWith') {
+            filter.city = { $regex: `^${cityValue}`, $options: 'i' };
         }
-        if (req.query.city === 'endsWith') {
-            filter.city = { $regex: `${req.query.cityValue}$`, $options: 'i' };
+        if (city === 'endsWith') {
+            filter.city = { $regex: `${cityValue}$`, $options: 'i' };
         }
-        if (req.query.city === 'isBlank') {
+        if (city === 'isBlank') {
             filter.city = { $exists: false, $ne: '' };
         }
-        if (req.query.city === 'isNotBlank') {
+        if (city === 'isNotBlank') {
             filter.city = { $exists: true, $ne: '' };
         }
         // address2 filters end
 
         // city filters start
-        if (req.query.state === 'like') {
-            filter.state = { $regex: req.query.stateValue, $options: 'i' };
+        if (state === 'like') {
+            filter.state = { $regex: stateValue, $options: 'i' };
         }
-        if (req.query.state === 'eq') {
-            filter.state = { $in: req.query.stateValue }
+        if (state === 'eq') {
+            filter.state = { $in: stateValue }
         }
-        if (req.query.state === 'notLike') {
-            filter.state = { $not: { $regex: req.query.stateValue, $options: 'i' } };
+        if (state === 'notLike') {
+            filter.state = { $not: { $regex: stateValue, $options: 'i' } };
         }
-        if (req.query.state === 'isNot') {
-            filter.state = { $ne: req.query.stateValue };
+        if (state === 'isNot') {
+            filter.state = { $ne: stateValue };
         }
-        if (req.query.state === 'startsWith') {
-            filter.state = { $regex: `^${req.query.stateValue}`, $options: 'i' };
+        if (state === 'startsWith') {
+            filter.state = { $regex: `^${stateValue}`, $options: 'i' };
         }
-        if (req.query.state === 'endsWith') {
-            filter.state = { $regex: `${req.query.stateValue}$`, $options: 'i' };
+        if (state === 'endsWith') {
+            filter.state = { $regex: `${stateValue}$`, $options: 'i' };
         }
-        if (req.query.state === 'isBlank') {
+        if (state === 'isBlank') {
             filter.state = { $exists: false, $ne: '' };
         }
-        if (req.query.state === 'isNotBlank') {
+        if (state === 'isNotBlank') {
             filter.state = { $exists: true, $ne: '' };
         }
         // state filters end
 
 
         // age filters start
-        if (req.query.age === 'lte') {
-            filter.age = { $lte: req.query.ageStartValue }
+        if (age === 'lte') {
+            filter.age = { $lte: ageStartValue }
         }
-        if (req.query.age === 'gte') {
-            filter.age = { $gte: req.query.ageStartValue }
+        if (age === 'gte') {
+            filter.age = { $gte: ageStartValue }
         }
-        if (req.query.age === 'between') {
-            filter.age = { $gte: req.query.ageStartValue, $lte: req.query.ageEndValue };
+        if (age === 'between') {
+            filter.age = { $gte: ageStartValue, $lte: ageEndValue };
         }
 
 
