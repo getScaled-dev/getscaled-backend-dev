@@ -67,11 +67,11 @@ const dashboard = async (req, res) => {
     const mobilePhone = req.query.mobilePhone
     const mobilePhoneValue = req.query.mobilePhoneValue
     const city = req.query.city
-    const cityValue = req.query.cityValue
+    let cityValue = JSON.parse(req.query.cityValue)
     const state = req.query.state
     const stateValue = req.query.stateValue
     const companyName = req.query.companyName
-    const companyNameValue = req.query.companyNameValue
+    let companyNameValue = JSON.parse(req.query.companyNameValue)
     const companyPhone = req.query.companyPhone
     const companyPhoneValue = req.query.companyPhoneValue
     const address = req.query.address
@@ -120,25 +120,54 @@ const dashboard = async (req, res) => {
         // first name filters end
         // compan Name filters 
 
+        // if (companyName != 'null') {
+        //     console.log('enter in cname')
+        //     if (companyName === 'like') {
+        //         filter.companyName = { $regex: companyNameValue, $options: 'i' };
+        //     }
+        //     if (companyName === 'eq') {
+        //         filter.companyName = { $in: companyNameValue }
+        //     }
+        //     if (companyName === 'notLike') {
+        //         filter.companyName = { $not: { $regex: companyNameValue, $options: 'i' } };
+        //     }
+        //     if (companyName === 'isNot') {
+        //         filter.companyName = { $ne: companyNameValue };
+        //     }
+        //     if (companyName === 'startsWith') {
+        //         filter.companyName = { $regex: `^${companyNameValue}`, $options: 'i' };
+        //     }
+        //     if (companyName === 'endsWith') {
+        //         filter.companyName = { $regex: `${companyNameValue}$`, $options: 'i' };
+        //     }
+        //     if (companyName === 'isBlank') {
+        //         filter.companyName = { $exists: false, $ne: '' };
+        //     }
+        //     if (companyName === 'isNotBlank') {
+        //         filter.companyName = { $exists: true, $ne: '' };
+        //     }
+        // }
+
         if (companyName != 'null') {
-            console.log('enter in cname')
             if (companyName === 'like') {
-                filter.companyName = { $regex: companyNameValue, $options: 'i' };
+                const jobTitlesArray = companyNameValue;
+                const companies = jobTitlesArray.map(job => job.companyNameValue);
+                const regex = new RegExp(companies.join('|'), 'i');
+                filter.companyName = regex;
             }
-            if (companyName === 'eq') {
-                filter.companyName = { $in: companyNameValue }
+            if (companyName === 'in') {
+                console.log('comming')
+                const jobTitlesArray = companyNameValue;
+                const companies = jobTitlesArray.map(job => job.companyNameValue);
+
+                filter.companyName = { $in: companies }
             }
-            if (companyName === 'notLike') {
-                filter.companyName = { $not: { $regex: companyNameValue, $options: 'i' } };
-            }
-            if (companyName === 'isNot') {
-                filter.companyName = { $ne: companyNameValue };
-            }
-            if (companyName === 'startsWith') {
-                filter.companyName = { $regex: `^${companyNameValue}`, $options: 'i' };
-            }
-            if (companyName === 'endsWith') {
-                filter.companyName = { $regex: `${companyNameValue}$`, $options: 'i' };
+            if (companyName === 'not') {
+                console.log('comming')
+                const jobTitlesArray = companyNameValue;
+                const companies = jobTitlesArray.map(job => job.companyNameValue);
+
+                filter.companyName = { $nin: companies }
             }
             if (companyName === 'isBlank') {
                 filter.companyName = { $exists: false, $ne: '' };
@@ -337,11 +366,22 @@ const dashboard = async (req, res) => {
                 filter.jobTitle = regex;
             }
             if (jobTitle === 'in') {
-                console.log('comming')
                 const jobTitlesArray = jobTitleValue;
                 const jobTitles = jobTitlesArray.map(job => job.jobTitleValue);
 
                 filter.jobTitle = { $in: jobTitles }
+            }
+            if (jobTitle === 'not') {
+                const jobTitlesArray = jobTitleValue;
+                const jobTitles = jobTitlesArray.map(job => job.jobTitleValue);
+
+                filter.jobTitle = { $nin: jobTitles }
+            }
+            if (jobTitle === 'isBlank') {
+                filter.jobTitle = { $exists: false, $ne: '' };
+            }
+            if (jobTitle === 'isNotBlank') {
+                filter.jobTitle = { $exists: true, $ne: '' };
             }
         }
 
@@ -349,24 +389,52 @@ const dashboard = async (req, res) => {
 
 
         // city filters start
-        if (city != 'null') {
+        // if (city != 'null') {
+        //     if (city === 'like') {
+        //         filter.city = { $regex: cityValue, $options: 'i' };
+        //     }
+        //     if (city === 'eq') {
+        //         filter.city = { $in: cityValue }
+        //     }
+        //     if (city === 'notLike') {
+        //         filter.city = { $not: { $regex: cityValue, $options: 'i' } };
+        //     }
+        //     if (city === 'isNot') {
+        //         filter.city = { $ne: cityValue };
+        //     }
+        //     if (city === 'startsWith') {
+        //         filter.city = { $regex: `^${cityValue}`, $options: 'i' };
+        //     }
+        //     if (city === 'endsWith') {
+        //         filter.city = { $regex: `${cityValue}$`, $options: 'i' };
+        //     }
+        //     if (city === 'isBlank') {
+        //         filter.city = { $exists: false, $ne: '' };
+        //     }
+        //     if (city === 'isNotBlank') {
+        //         filter.city = { $exists: true, $ne: '' };
+        //     }
+        // }
+        if (city != 'null' || city != null) {
             if (city === 'like') {
-                filter.city = { $regex: cityValue, $options: 'i' };
+                const citiesArray = cityValue;
+                const cities = citiesArray.map(city => city.cityValue);
+                const regex = new RegExp(cities.join('|'), 'i');
+                filter.city = regex;
             }
-            if (city === 'eq') {
-                filter.city = { $in: cityValue }
+            if (city === 'in') {
+                console.log('comming')
+                const citiesArray = cityValue;
+                const cities = citiesArray.map(city => city.cityValue);
+
+                filter.city = { $in: cities }
             }
-            if (city === 'notLike') {
-                filter.city = { $not: { $regex: cityValue, $options: 'i' } };
-            }
-            if (city === 'isNot') {
-                filter.city = { $ne: cityValue };
-            }
-            if (city === 'startsWith') {
-                filter.city = { $regex: `^${cityValue}`, $options: 'i' };
-            }
-            if (city === 'endsWith') {
-                filter.city = { $regex: `${cityValue}$`, $options: 'i' };
+            if (city === 'not') {
+                console.log('comming')
+                const citiesArray = cityValue;
+                const cities = citiesArray.map(city => city.cityValue);
+
+                filter.city = { $nin: cities }
             }
             if (city === 'isBlank') {
                 filter.city = { $exists: false, $ne: '' };
@@ -379,7 +447,7 @@ const dashboard = async (req, res) => {
         // address2 filters end
 
         // city filters start
-        if (state != 'null') {
+        if (state != 'null' || state != null) {
             if (state === 'like') {
                 filter.state = { $regex: stateValue, $options: 'i' };
             }
