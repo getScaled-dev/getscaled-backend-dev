@@ -20,7 +20,7 @@ app.use(recordRoutes);
 
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
 app.timeout = 3000000;
