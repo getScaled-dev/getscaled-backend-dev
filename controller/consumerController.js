@@ -1,4 +1,4 @@
-const LinedinData = require('../models/LinkedinData')
+const consumerData = require('../models/ConsumerData')
 const multer = require('multer');
 const csv = require('csv-parser');
 const fs = require('fs')
@@ -37,7 +37,7 @@ const addData = (req, res) => {
         })
         .on('end', () => {
             // Save each record to the database
-            LinedinData.insertMany(results)
+            consumerData.insertMany(results)
                 .then(() => {
                     // Return a success response
                     res.status(200).send({
@@ -54,7 +54,7 @@ const addData = (req, res) => {
 }
 
 // GET API with pagination and filters
-const dashboard = async (req, res) => {
+const getConsumerData = async (req, res) => {
     const filter = {};
     const firstName = req.query.firstName
     const firstNameValue = req.query.firstNameValue
@@ -494,7 +494,7 @@ const dashboard = async (req, res) => {
 
         if (req.query.export) {
 
-            const data = await LinedinData.find(filter);
+            const data = await consumerData.find(filter);
             // Convert data to CSV format
             console.log('=========export========')
             const CsvParser = require("json2csv").Parser;
@@ -566,12 +566,12 @@ const dashboard = async (req, res) => {
             res.status(200).end(csvData);
         } else {
             console.log(filter, 'filterss')
-            const query = LinedinData.find(filter)
+            const query = consumerData.find(filter)
                 .skip((page - 1) * limit)
                 .limit(parseInt(limit));
 
             const results = await query.exec();
-            const count = await LinedinData.count(filter);
+            const count = await consumerData.count(filter);
 
             res.status(200).json({
                 data: results,
@@ -593,7 +593,7 @@ const updateData = async (req, res) => {
 
     try {
         // Find the document by ID
-        const doc = await LinedinData.findById(id);
+        const doc = await consumerData.findById(id);
 
         if (!doc) {
             return res.status(404).json({ error: 'Document not found' });
@@ -628,7 +628,7 @@ const updateData = async (req, res) => {
 const deleteRecords = async (req, res) => {
     try {
         const idsToDelete = req.body; // Assumes that the client sends an array of IDs in the request body
-        const result = await LinedinData.deleteMany({ _id: { $in: idsToDelete.id } });
+        const result = await consumerData.deleteMany({ _id: { $in: idsToDelete.id } });
         res.json({ message: `${result} records deleted` });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -638,7 +638,7 @@ const deleteRecords = async (req, res) => {
 
 module.exports = {
     addData,
-    dashboard,
+    getConsumerData,
     updateData,
     deleteRecords
 }

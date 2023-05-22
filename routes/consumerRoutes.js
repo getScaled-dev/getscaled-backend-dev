@@ -2,7 +2,7 @@ const express = require('express')
 const multer = require('multer');
 const path = require('path')
 // const auth = require('./helpers/index');
-const recordController = require('../controller/recordController')
+const consumerController = require('../controller/consumerController')
 const router = new express.Router();
 
 var storage = multer.diskStorage({
@@ -24,13 +24,13 @@ var upload = multer({
 
 
 
-router.post('/api/add-data', upload.single('csvFile'), recordController.addData);
+router.post('/api/add-consumer-data', upload.single('csvFile'), consumerController.addData);
 
 // GET API with pagination and filters
-router.get('/api/dashboard', recordController.dashboard);
+router.get('/api/get-consumer-data', consumerController.getConsumerData);
 
-router.put('/update-data', recordController.updateData);
+router.put('/update-consumer-data', consumerController.updateData);
 
-router.delete('/delete-records', recordController.deleteRecords);
+router.delete('/delete-consumer-records', consumerController.deleteRecords);
 
 module.exports = router;

@@ -14,9 +14,11 @@ app.use('/api', require('./controller/auth'));
 
 // const userRoutes = require('./routes/userRoutes');
 const recordRoutes = require('./routes/recordRoutes');
+const consumerRoutes = require('./routes/consumerRoutes')
 
 // app.use(userRoutes);
 app.use(recordRoutes);
+app.use(consumerRoutes)
 
 
 // Start the server

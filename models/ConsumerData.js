@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const recordSchema = new mongoose.Schema({
+const consumerSchema = new mongoose.Schema({
     fullName: {
         type: String,
         index: true
@@ -48,5 +48,5 @@ const recordSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Create a model based on the schema
-const Record = mongoose.model('Record', recordSchema);
-module.exports = Record;
+const consumerData = mongoose.model('consumerData', consumerSchema);
+module.exports = consumerData;
