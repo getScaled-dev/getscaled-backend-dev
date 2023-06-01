@@ -14,10 +14,14 @@ app.use('/api', require('./controller/auth'));
 
 // const userRoutes = require('./routes/userRoutes');
 const recordRoutes = require('./routes/recordRoutes');
+const LinkedinData2 = require('./routes/linkedin2Routes');
+
 const consumerRoutes = require('./routes/consumerRoutes')
 
 // app.use(userRoutes);
 app.use(recordRoutes);
+app.use(LinkedinData2);
+
 app.use(consumerRoutes)
 
 

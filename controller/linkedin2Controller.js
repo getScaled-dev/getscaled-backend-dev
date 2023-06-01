@@ -1,4 +1,4 @@
-const consumerData = require('../models/ConsumerData')
+const LinkedinData2 = require('../models/LinkedinData2')
 const multer = require('multer');
 const csv = require('csv-parser');
 const fs = require('fs')
@@ -37,7 +37,7 @@ const addData = (req, res) => {
         })
         .on('end', () => {
             // Save each record to the database
-            consumerData.insertMany(results)
+            LinkedinData2.insertMany(results)
                 .then(() => {
                     // Return a success response
                     res.status(200).send({
@@ -54,7 +54,7 @@ const addData = (req, res) => {
 }
 
 // GET API with pagination and filters
-const getConsumerData = async (req, res) => {
+const dashboard = async (req, res) => {
     const filter = {};
     const firstName = req.query.firstName
     const firstNameValue = req.query.firstNameValue
@@ -82,9 +82,6 @@ const getConsumerData = async (req, res) => {
     const age = req.query.age
     const ageEndValue = req.query.ageEndValue
     const ageStartValue = req.query.ageStartValue
-    const optionSource = req.query.optionSource
-    const optionSourceValue = req.query.optionSourceValue
-    const ownRent = req.query.ownRent
 
     try {
         const page = parseInt(req.query.page) || 1;
@@ -418,7 +415,7 @@ const getConsumerData = async (req, res) => {
         //         filter.city = { $exists: true, $ne: '' };
         //     }
         // }
-        if (city != 'null') {
+        if (city != 'null' || city != null) {
             if (city === 'like') {
                 const citiesArray = cityValue;
                 const cities = citiesArray.map(city => city.cityValue);
@@ -450,7 +447,7 @@ const getConsumerData = async (req, res) => {
         // address2 filters end
 
         // city filters start
-        if (state != 'null') {
+        if (state != 'null' || state != null) {
             if (state === 'like') {
                 filter.state = { $regex: stateValue, $options: 'i' };
             }
@@ -479,44 +476,6 @@ const getConsumerData = async (req, res) => {
 
         // state filters end
 
-        // option Source filters 
-        // city filters start
-        if (optionSource != 'null') {
-            if (optionSource === 'like') {
-                filter.optionSource = { $regex: optionSourceValue, $options: 'i' };
-            }
-            if (optionSource === 'eq') {
-                filter.optionSource = { $in: optionSourceValue }
-            }
-            if (optionSource === 'notLike') {
-                filter.optionSource = { $not: { $regex: optionSourceValue, $options: 'i' } };
-            }
-            if (optionSource === 'isNot') {
-                filter.optionSource = { $ne: optionSourceValue };
-            }
-            if (optionSource === 'startsWith') {
-                filter.optionSource = { $regex: `^${optionSourceValue}`, $options: 'i' };
-            }
-            if (optionSource === 'endsWith') {
-                filter.optionSource = { $regex: `${optionSourceValue}$`, $options: 'i' };
-            }
-            if (optionSource === 'isBlank') {
-                filter.optionSource = { $exists: false, $ne: '' };
-            }
-            if (optionSource === 'isNotBlank') {
-                filter.optionSource = { $exists: true, $ne: '' };
-            }
-        }
-
-        // own rent filters 
-
-        if (ownRent != 'null') {
-            console.log(ownRent)
-
-            filter.ownRent = { $regex: ownRent, $options: 'i' };
-
-
-        }
 
         // age filters start
         if (age != 'null') {
@@ -535,7 +494,7 @@ const getConsumerData = async (req, res) => {
 
         if (req.query.export) {
 
-            const data = await consumerData.find(filter);
+            const data = await LinkedinData2.find(filter);
             // Convert data to CSV format
             console.log('=========export========')
             const CsvParser = require("json2csv").Parser;
@@ -607,12 +566,12 @@ const getConsumerData = async (req, res) => {
             res.status(200).end(csvData);
         } else {
             console.log(filter, 'filterss')
-            const query = consumerData.find(filter)
+            const query = LinkedinData2.find(filter)
                 .skip((page - 1) * limit)
                 .limit(parseInt(limit));
 
             const results = await query.exec();
-            const count = await consumerData.count(filter);
+            const count = await LinkedinData2.count(filter);
 
             res.status(200).json({
                 data: results,
@@ -634,7 +593,7 @@ const updateData = async (req, res) => {
 
     try {
         // Find the document by ID
-        const doc = await consumerData.findById(id);
+        const doc = await LinkedinData2.findById(id);
 
         if (!doc) {
             return res.status(404).json({ error: 'Document not found' });
@@ -669,7 +628,7 @@ const updateData = async (req, res) => {
 const deleteRecords = async (req, res) => {
     try {
         const idsToDelete = req.body; // Assumes that the client sends an array of IDs in the request body
-        const result = await consumerData.deleteMany({ _id: { $in: idsToDelete.id } });
+        const result = await LinkedinData2.deleteMany({ _id: { $in: idsToDelete.id } });
         res.json({ message: `${result} records deleted` });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -679,7 +638,7 @@ const deleteRecords = async (req, res) => {
 
 module.exports = {
     addData,
-    getConsumerData,
+    dashboard,
     updateData,
     deleteRecords
 }
