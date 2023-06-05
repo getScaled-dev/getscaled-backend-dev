@@ -17,11 +17,12 @@ const recordRoutes = require('./routes/recordRoutes');
 const LinkedinData2 = require('./routes/linkedin2Routes');
 
 const consumerRoutes = require('./routes/consumerRoutes')
+const mauticRoutes = require('./routes/mauticRoutes')
 
 // app.use(userRoutes);
 app.use(recordRoutes);
 app.use(LinkedinData2);
-
+app.use(mauticRoutes);
 app.use(consumerRoutes)
 
 
