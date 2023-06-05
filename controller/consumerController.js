@@ -83,7 +83,7 @@ const getConsumerData = async (req, res) => {
     const ageEndValue = req.query.ageEndValue
     const ageStartValue = req.query.ageStartValue
     const optionSource = req.query.optionSource
-    const optionSourceValue = req.query.optionSourceValue
+    let optionSourceValue = JSON.parse(req.query.optionSourceValue)
     const ownRent = req.query.ownRent
 
     try {
@@ -120,36 +120,7 @@ const getConsumerData = async (req, res) => {
             }
         }
 
-        // first name filters end
-        // compan Name filters 
 
-        // if (companyName != 'null') {
-        //     console.log('enter in cname')
-        //     if (companyName === 'like') {
-        //         filter.companyName = { $regex: companyNameValue, $options: 'i' };
-        //     }
-        //     if (companyName === 'eq') {
-        //         filter.companyName = { $in: companyNameValue }
-        //     }
-        //     if (companyName === 'notLike') {
-        //         filter.companyName = { $not: { $regex: companyNameValue, $options: 'i' } };
-        //     }
-        //     if (companyName === 'isNot') {
-        //         filter.companyName = { $ne: companyNameValue };
-        //     }
-        //     if (companyName === 'startsWith') {
-        //         filter.companyName = { $regex: `^${companyNameValue}`, $options: 'i' };
-        //     }
-        //     if (companyName === 'endsWith') {
-        //         filter.companyName = { $regex: `${companyNameValue}$`, $options: 'i' };
-        //     }
-        //     if (companyName === 'isBlank') {
-        //         filter.companyName = { $exists: false, $ne: '' };
-        //     }
-        //     if (companyName === 'isNotBlank') {
-        //         filter.companyName = { $exists: true, $ne: '' };
-        //     }
-        // }
 
         if (companyName != 'null') {
             if (companyName === 'like') {
@@ -391,33 +362,7 @@ const getConsumerData = async (req, res) => {
         // job title filters start 
 
 
-        // city filters start
-        // if (city != 'null') {
-        //     if (city === 'like') {
-        //         filter.city = { $regex: cityValue, $options: 'i' };
-        //     }
-        //     if (city === 'eq') {
-        //         filter.city = { $in: cityValue }
-        //     }
-        //     if (city === 'notLike') {
-        //         filter.city = { $not: { $regex: cityValue, $options: 'i' } };
-        //     }
-        //     if (city === 'isNot') {
-        //         filter.city = { $ne: cityValue };
-        //     }
-        //     if (city === 'startsWith') {
-        //         filter.city = { $regex: `^${cityValue}`, $options: 'i' };
-        //     }
-        //     if (city === 'endsWith') {
-        //         filter.city = { $regex: `${cityValue}$`, $options: 'i' };
-        //     }
-        //     if (city === 'isBlank') {
-        //         filter.city = { $exists: false, $ne: '' };
-        //     }
-        //     if (city === 'isNotBlank') {
-        //         filter.city = { $exists: true, $ne: '' };
-        //     }
-        // }
+
         if (city != 'null') {
             if (city === 'like') {
                 const citiesArray = cityValue;
@@ -482,23 +427,26 @@ const getConsumerData = async (req, res) => {
         // option Source filters 
         // city filters start
         if (optionSource != 'null') {
+            console.log('options here')
             if (optionSource === 'like') {
-                filter.optionSource = { $regex: optionSourceValue, $options: 'i' };
+                const optionSourceArray = optionSourceValue;
+                const options = optionSourceArray.map(source => source.optionSourceValue);
+                const regex = new RegExp(options.join('|'), 'i');
+                filter.optionSource = regex;
             }
-            if (optionSource === 'eq') {
-                filter.optionSource = { $in: optionSourceValue }
+            if (optionSource === 'in') {
+                console.log('comming')
+                const optionSourceArray = optionSourceValue;
+                const options = optionSourceArray.map(job => job.optionSourceValue);
+
+                filter.optionSource = { $in: options }
             }
-            if (optionSource === 'notLike') {
-                filter.optionSource = { $not: { $regex: optionSourceValue, $options: 'i' } };
-            }
-            if (optionSource === 'isNot') {
-                filter.optionSource = { $ne: optionSourceValue };
-            }
-            if (optionSource === 'startsWith') {
-                filter.optionSource = { $regex: `^${optionSourceValue}`, $options: 'i' };
-            }
-            if (optionSource === 'endsWith') {
-                filter.optionSource = { $regex: `${optionSourceValue}$`, $options: 'i' };
+            if (optionSource === 'not') {
+                console.log('comming')
+                const optionSourceArray = optionSourceValue;
+                const companies = optionSourceArray.map(job => job.optionSourceValue);
+
+                filter.optionSource = { $nin: companies }
             }
             if (optionSource === 'isBlank') {
                 filter.optionSource = { $exists: false, $ne: '' };
